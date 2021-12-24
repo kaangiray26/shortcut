@@ -1,0 +1,2 @@
+# shortcut
+Serverless URL Redirection
