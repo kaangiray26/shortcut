@@ -99,6 +99,7 @@
                 if (hash) {
                     console.log(hash);
                     var decrypted = CryptoJS.AES.decrypt(String(hash), "e1");
+                    console.log(decrypted.toString(CryptoJS.enc.Utf8));
                     window.location.replace(decrypted.toString(CryptoJS.enc.Utf8));
                 }
             }
