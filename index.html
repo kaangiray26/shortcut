@@ -27,6 +27,20 @@
     <!-- CryptoJS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
+    <script type="text/javascript">
+        var queryString = window.location.search;
+        if (queryString) {
+            var hash = queryString.split('?=')[1];
+            if (hash) {
+                var reb64 = CryptoJS.enc.Hex.parse(String(hash));
+                var bytes = reb64.toString(CryptoJS.enc.Base64);
+                var decrypted = CryptoJS.AES.decrypt(bytes, "e1");
+                var plain = decrypted.toString(CryptoJS.enc.Utf8);
+                window.location.replace(decrypted.toString(CryptoJS.enc.Utf8));
+            }
+        }
+    </script>
+
 </head>
 
 <body>
@@ -88,22 +102,6 @@
                 var eHex = e64.toString(CryptoJS.enc.Hex);
                 $('#encrypted_link').text('https://f34rl00.github.io/shortcut?=' + eHex);
                 $('#output_link').removeClass('d-none');
-            }
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var queryString = window.location.search;
-            if (queryString) {
-                var hash = queryString.split('?=')[1];
-                if (hash) {
-                    var reb64 = CryptoJS.enc.Hex.parse(String(hash));
-                    var bytes = reb64.toString(CryptoJS.enc.Base64);
-                    var decrypted = CryptoJS.AES.decrypt(bytes, "e1");
-                    var plain = decrypted.toString(CryptoJS.enc.Utf8);
-                    window.location.replace(decrypted.toString(CryptoJS.enc.Utf8));
-                }
             }
         });
     </script>
