@@ -84,8 +84,11 @@
         input.addEventListener("keyup", function(event) {
             if (event.key === "Enter" && input.value.length != 0) {
                 var encrypted = CryptoJS.AES.encrypt(input.value, "e1").toString();
-                console.log('https://f34rl00.github.io/shortcut?=' + CryptoJS.enc.Hex.stringify(encrypted));
-                console.log('https://f34rl00.github.io/shortcut?=' + encrypted);
+
+                var e64 = CryptoJS.enc.Base64.parse(encrypted);
+                var eHex = e64.toString(CryptoJS.enc.Hex);
+                console.log('https://f34rl00.github.io/shortcut?=' + eHex);
+
                 $('#encrypted_link').text('https://f34rl00.github.io/shortcut?=' + encrypted);
                 $('#output_link').removeClass('d-none');
             }
