@@ -83,9 +83,10 @@
         var input = document.getElementById("url_query");
         input.addEventListener("keyup", function(event) {
             if (event.key === "Enter" && input.value.length != 0) {
-                var encrypted = CryptoJS.AES.encrypt(input.value, "e1");
-                console.log('https://f34rl00.github.io/shortcut?=' + encrypted.toString());
-                $('#encrypted_link').text('https://f34rl00.github.io/shortcut?=' + encrypted.toString());
+                var encrypted = CryptoJS.AES.encrypt(input.value, "e1").toString();
+                console.log('https://f34rl00.github.io/shortcut?=' + CryptoJS.enc.Hex.stringify(encrypted));
+                console.log('https://f34rl00.github.io/shortcut?=' + encrypted);
+                $('#encrypted_link').text('https://f34rl00.github.io/shortcut?=' + encrypted);
                 $('#output_link').removeClass('d-none');
             }
         });
