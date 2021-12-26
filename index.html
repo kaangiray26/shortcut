@@ -46,8 +46,8 @@
                         <span class="input-group-text" id="addon-wrapping">#</span>
                         <input id="url_query" type="text" class="form-control" placeholder="Enter your URL here..." aria-label="address" aria-describedby="addon-wrapping">
                     </div>
-                    <div class="input-group flex-nowrap">
-                        <span class="input-group-text" id="encrypted_link" style="display: inline-block; max-width: 36ch; overflow: hidden;white-space: nowrap;text-overflow: ellipsis; min-width: 36ch;"></span>
+                    <div id="output_link" class="input-group flex-nowrap d-none">
+                        <span class="input-group-text" id="encrypted_link" style="display: inline-block; overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"></span>
                         <button class="btn btn-outline-dark bi bi-clipboard" type="button" id="copyButton" onclick="copyToClipboard()" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="Copied to clipboard !">Copy Link</button>
                     </div>
                 </div>
@@ -86,6 +86,7 @@
                 var encrypted = CryptoJS.AES.encrypt(input.value, "e1");
                 console.log('https://f34rl00.github.io/shortcut?=' + encrypted.toString());
                 $('#encrypted_link').text('https://f34rl00.github.io/shortcut?=' + encrypted.toString());
+                $('#output_link').removeClass('d-none');
             }
         });
     </script>
