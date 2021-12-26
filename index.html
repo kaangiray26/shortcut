@@ -98,7 +98,6 @@
             if (queryString) {
                 var hash = queryString.split('?=')[1];
                 if (hash) {
-                    console.log(hash);
                     var reb64 = CryptoJS.enc.Hex.parse(String(hash));
                     var bytes = reb64.toString(CryptoJS.enc.Base64);
                     var decrypted = CryptoJS.AES.decrypt(bytes, "e1");
