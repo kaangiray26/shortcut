@@ -3,22 +3,40 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no">
     <title>shortcut</title>
     <link rel="icon" type="image/svg+xml" sizes="16x16" href="assets/img/receipt-cutoff.svg">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        var queryString = window.location.search;
+        if (queryString) {
+            var hash = queryString.split('?id=')[1];
+            if (hash) {
+                var reb64 = CryptoJS.enc.Hex.parse(String(hash));
+                var bytes = reb64.toString(CryptoJS.enc.Base64);
+                var decrypted = CryptoJS.AES.decrypt(bytes, "e1");
+                var plain = decrypted.toString(CryptoJS.enc.Utf8);
+                window.location.replace(decrypted.toString(CryptoJS.enc.Utf8));
+            }
+        }
+    </script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
-<script src="decrypt.js"></script>
 </head>
 
 <body style="background: var(--bs-body-color);">
     <div class="container">
-        <header class="border-bottom p-4"><a href="/shortcut" style="font-size: 32px;color: transparent;"><span class="bi bi-receipt-cutoff mx-2" style="font-size: 32px;color: var(--bs-body-bg);"></span><span style="color: var(--bs-body-bg);">Shortcut</span></a></header>
+        <header class="border-bottom p-4"><a href="/shortcut" style="font-size: 32px;color: transparent;"><span
+                    class="bi bi-receipt-cutoff mx-2" style="font-size: 32px;color: var(--bs-body-bg);"></span><span
+                    style="color: var(--bs-body-bg);">Shortcut</span></a></header>
         <div class="my-4 p-4 bg-light rounded-3">
             <h1 style="font-weight: bold;color: var(--bs-body-color);">Get Your Link</h1>
             <div class="input-group"><span class="input-group-text">&gt;</span><input class="form-control" type="text" id="url_query" placeholder="Enter your URL here..." aria-label="address"></div>
-            <div class="input-group flex-nowrap d-none" id="output_link"><span class="font-monospace text-primary d-flex flex-fill input-group-text" id="encrypted_link"></span><button class="btn btn-outline-primary bi bi-clipboard" id="copyButton" type="button" onclick="copyToClipboard()" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="left" data-bs-content="Copied to clipboard!">&nbsp;Copy Link</button></div>
+            <div class="input-group flex-nowrap d-none" id="output_link"><span class="font-monospace text-primary d-flex flex-fill input-group-text" id="encrypted_link"></span><button class="btn btn-outline-primary bi bi-clipboard" id="copyButton" type="button" onclick="copyToClipboard()" data-bs-container="body"
+                    data-bs-toggle="popover" data-bs-placement="left" data-bs-content="Copied to clipboard!">&nbsp;Copy Link</button></div>
         </div>
         <div class="my-4 p-4 bg-light rounded-3">
             <h1 style="font-weight: bold;color: var(--bs-body-color);">Why Even Bother Using a Redirector ?</h1>
@@ -45,10 +63,31 @@
             <p>Currently <a href="https://github.com/kgbzen/shortcut" target="_blank" style="color: var(--bs-body-bg);">v1.0</a><br>Created by kgbzen<br></p>
         </footer>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous"></script>
-    <script src="assets/js/script.min.js"></script>
+
+    <script type="text/javascript">
+        var input = document.getElementById("url_query");
+        input.addEventListener("keyup", function(event) {
+            if (event.key === "Enter" && input.value.length != 0) {
+                var encrypted = CryptoJS.AES.encrypt(input.value, "e1").toString();
+                var e64 = CryptoJS.enc.Base64.parse(encrypted);
+                var eHex = e64.toString(CryptoJS.enc.Hex);
+                $('#encrypted_link').text('https://kgbzen.github.io/shortcut?id=' + eHex);
+                $('#output_link').removeClass('d-none');
+            }
+        });
+    </script>
+
+    <script type="text/javascript">
+        function copyToClipboard() {
+            var copyText = $('#encrypted_link').text();
+            console.log(copyText);
+            navigator.clipboard.writeText(copyText);
+            $('#copyButton').popover();
+        }
+    </script>
 </body>
 
 </html>
