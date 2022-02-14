@@ -1,2 +1,2 @@
 # shortcut
-Serverless URL Redirection
+Serverless URL Redirector
